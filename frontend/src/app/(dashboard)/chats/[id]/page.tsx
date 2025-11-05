@@ -3,17 +3,19 @@ import { ContentLayout } from "@/components/dashboard/content-layout";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 
 interface CategoriesPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
-export default function CategoriesPage({ params }: CategoriesPageProps) {
+export default async function CategoriesPage({ params }: CategoriesPageProps) {
+  const resolvedParams = await params;
+
   return (
     <ContentLayout title="Categories">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/">{params.id}</Link>
+              <Link href="/">{resolvedParams.id}</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />

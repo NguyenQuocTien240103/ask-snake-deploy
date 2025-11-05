@@ -48,8 +48,3 @@ export const updatePassword = async ({old_password, new_password, confirm_new_pa
     })
     return res
 }
-
-export const prepare = async (payload: any) => {
-    const res = await request.post('auth/prepare', payload)
-    return res
-}

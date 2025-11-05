@@ -11,8 +11,8 @@ async def login(user: UserLogin, response: Response):
     user_dict = user.dict()
     try:
         token = await AuthService.get_token(user_dict['email'], user_dict['password'])
-        response.set_cookie(key="access_token", value=token.access_token, httponly=True)
-        response.set_cookie(key="refresh_token", value=token.refresh_token, httponly=True)
+        response.set_cookie(key="access_token", value=token.access_token, httponly=True, samesite="none", secure=True)
+        response.set_cookie(key="refresh_token", value=token.refresh_token, httponly=True, samesite="none", secure=True)
         return {"message": "Login successful", "access_token": token.access_token, "refresh_token": token.refresh_token}
     except HTTPException as e:
         raise e
@@ -54,5 +54,5 @@ async def update_password(payload: UserUpdatePassword, current_user: Annotated[d
 
 @app_router.post("/refresh-token", status_code=status.HTTP_200_OK)
 async def get_new_access_token(response: Response, token: Annotated[AccessToken, Depends(AuthService.get_access_token)]):
-    response.set_cookie(key="access_token", value = token.access_token, httponly=True)
+    response.set_cookie(key="access_token", value = token.access_token, httponly=True, samesite="none", secure=True)
     return {"message":  "Access token refreshed", "access_token": token.access_token}

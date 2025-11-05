@@ -2,17 +2,19 @@ from fastapi import FastAPI
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel, EmailStr
 from config.database import client, db
+from fastapi.middleware.cors import CORSMiddleware
 from routers.auth_router import app_router as auth_router
 from routers.user_router import app_router as user_router
 # from routers.chat_router import app_router as chat_router
-
-from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+import os
 
 app = FastAPI()
-
+origins = [os.getenv("FRONTEND_URL"), "http://localhost:3000"]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    # allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

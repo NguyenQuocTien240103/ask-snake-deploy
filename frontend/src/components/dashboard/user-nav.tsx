@@ -14,7 +14,7 @@ export function UserNav() {
   const handleLogOut = async () =>{
     try {
       await logout();
-      let id = setTimeout(() => {
+      const id = setTimeout(() => {
         setLogout();
         clearTimeout(id);
       }, 1000); 

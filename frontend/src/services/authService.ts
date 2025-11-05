@@ -17,7 +17,7 @@ type UpdatePasswordType = {
     confirm_new_password: string,
 }
 
-export const login = async ({email, password} : LoginType): Promise<any> => {
+export const login = async ({email, password} : LoginType) => {
     const res = await request.post('auth/login',{
         email,
         password,
@@ -26,7 +26,7 @@ export const login = async ({email, password} : LoginType): Promise<any> => {
 }
 
 
-export const register = async ({email, password, confirm_password} : RegisterType): Promise<any> => {
+export const register = async ({email, password, confirm_password} : RegisterType) => {
     const res = await request.post('auth/register',{
         email,
         password,
@@ -35,12 +35,12 @@ export const register = async ({email, password, confirm_password} : RegisterTyp
     return res
 }
 
-export const logout = async (): Promise<any> => {
+export const logout = async () => {
     const res = await request.post('auth/logout')
     return res
 }
 
-export const updatePassword = async ({old_password, new_password, confirm_new_password} : UpdatePasswordType): Promise<any> => {
+export const updatePassword = async ({old_password, new_password, confirm_new_password} : UpdatePasswordType) => {
     const res = await request.post('auth/update-password',{
         old_password,
         new_password,
@@ -49,7 +49,7 @@ export const updatePassword = async ({old_password, new_password, confirm_new_pa
     return res
 }
 
-export const prepare = async (payload: any): Promise<any> => {
+export const prepare = async (payload: any) => {
     const res = await request.post('auth/prepare', payload)
     return res
 }

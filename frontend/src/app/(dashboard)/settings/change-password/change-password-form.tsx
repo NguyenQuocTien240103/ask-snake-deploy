@@ -29,27 +29,42 @@ export function ChangePasswordForm() {
   })
 
   const onSubmit = async (data: UpdatePasswordSchemaType) => {
-    setIsLoading(true)
-    setSaveSuccess(false)
-    setIsError(false)
-    
+    setIsLoading(true);
+    setSaveSuccess(false);
+    setIsError(false);
+  
     try {
-      const res = await updatePassword(data)
-      setMessage(res.data.message)
-      setIsError(false)
-      reset()
-    } catch (error: any) {
-      console.error("Error updating password:", error)
-      setIsError(true)
-      setMessage(error.response.data.detail)
+      const res = await updatePassword(data);
+      setMessage(res.data.message);
+      setIsError(false);
+      reset();
+    } catch (err: unknown) {
+      console.error("Error updating password:", err);
+  
+      // Type guard
+      if (
+        typeof err === "object" &&
+        err !== null &&
+        "response" in err &&
+        typeof (err as any).response?.data?.detail === "string"
+      ) {
+        setMessage((err as any).response.data.detail);
+      } else if (err instanceof Error) {
+        setMessage(err.message);
+      } else {
+        setMessage("Unknown error occurred");
+      }
+  
+      setIsError(true);
     } finally {
-      setIsLoading(false)
-      setSaveSuccess(true)
-      if (timeoutRef.current) clearTimeout(timeoutRef.current)
-      timeoutRef.current = setTimeout(() => setSaveSuccess(false), 3000)
-
+      setIsLoading(false);
+      setSaveSuccess(true);
+  
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => setSaveSuccess(false), 3000);
     }
-  }
+  };
+  
 
   return (
     <div className="max-w-4xl space-y-6">

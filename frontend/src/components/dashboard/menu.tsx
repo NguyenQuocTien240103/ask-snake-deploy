@@ -19,7 +19,7 @@ export function Menu({ isOpen }: MenuProps) {
   const pathname = usePathname();
   const menuList = getMenuList(pathname);
   
-  const submenus_chat: any =  [
+  const submenus_chat =  [
     {
       href: "/profile",
       label: "Việt Nam có những loại rắn nào?",

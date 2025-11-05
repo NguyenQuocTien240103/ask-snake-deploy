@@ -19,22 +19,19 @@ export default function AccountPage() {
     const fetchUser = async () => {
       try {
         const res = await getUserCurrent();
-        setLogin(res.data)
-        setLoading(false)
-      } catch (error: any) {
-        console.error(error);
-        
-        if(error.response?.status === 401){
+        setLogin(res.data);
+      } catch (err) {
+        const error = err as { response?: { status: number } };
+        if (error.response?.status === 401) {
           setLogout();
-          router.push("/login")
-          return;
+          router.push("/login");
         }
-
-      } 
-      // finally {
-      //   setLoading(false)
-      // }
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
     };
+  
     fetchUser();
   }, []);
 

@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Save, Loader2, CheckCircle } from "lucide-react"
 import { updatePasswordSchema, UpdatePasswordSchemaType } from "./schema"
 import { updatePassword } from "@/services/authService"
-
+import { AxiosError } from "axios";
 export function ChangePasswordForm() {
   const [isLoading, setIsLoading] = useState(false)
   const [saveSuccess, setSaveSuccess] = useState(false)
@@ -41,14 +41,9 @@ export function ChangePasswordForm() {
     } catch (err: unknown) {
       console.error("Error updating password:", err);
   
-      // Type guard
-      if (
-        typeof err === "object" &&
-        err !== null &&
-        "response" in err &&
-        typeof (err as any).response?.data?.detail === "string"
-      ) {
-        setMessage((err as any).response.data.detail);
+      // Nếu là AxiosError
+      if (err instanceof AxiosError) {
+        setMessage(err.response?.data?.detail || "Unknown API error");
       } else if (err instanceof Error) {
         setMessage(err.message);
       } else {
